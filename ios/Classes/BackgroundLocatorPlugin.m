@@ -60,12 +60,11 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     if (launchOptions[UIApplicationLaunchOptionsLocationKey] != nil) {
         // Restart the headless service.
         [self startLocatorService:[PreferencesManager getCallbackDispatcherHandle]];
-        [PreferencesManager setObservingRegion:YES];
+        [PreferencesManager setObservingRegion:NO];
     } else if([PreferencesManager isObservingRegion]) {
         [self prepareLocationManager];
         [self removeLocator];
         [PreferencesManager setObservingRegion:NO];
-        [_locationManager startUpdatingLocation];
     }
     
     // Note: if we return NO, this vetos the launch of the application.
@@ -73,26 +72,29 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
+    [_locationManager stopUpdatingLocation];
     if ([PreferencesManager isServiceRunning]) {
         [_locationManager startMonitoringSignificantLocationChanges];
+        [_locationManager startMonitoringVisits];
     }
 }
 
--(void)applicationWillTerminate:(UIApplication *)application {
-    [self observeRegionForLocation:_lastLocation];
+- (void)applicationWillTerminate:(UIApplication *)application {
+    [_locationManager stopUpdatingLocation];
+    if ([PreferencesManager isServiceRunning]) {
+        [_locationManager startMonitoringSignificantLocationChanges];
+        [_locationManager startMonitoringVisits];
+    }
 }
 
-- (void) observeRegionForLocation:(CLLocation *)location {
-    double distanceFilter = [PreferencesManager getDistanceFilter];
-    CLRegion* region = [[CLCircularRegion alloc] initWithCenter:location.coordinate
-                                                         radius:distanceFilter
-                                                     identifier:@"region"];
-    region.notifyOnEntry = false;
-    region.notifyOnExit = true;
-    [_locationManager startMonitoringForRegion:region];
-}
+//- (void)applicationWillEnterForeground:(UIApplication *)application {
+//    if ([PreferencesManager isServiceRunning]) {
+//        [_locationManager stopMonitoringSignificantLocationChanges];
+//        [_locationManager startUpdatingLocation];
+//    }
+//}
 
-- (void) prepareLocationMap:(CLLocation*) location {
+- (void)prepareLocationMap:(CLLocation*) location {
     _lastLocation = location;
     NSDictionary<NSString*,NSNumber*>* locationMap = [Util getLocationMap:location];
     
@@ -105,16 +107,20 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     if (locations.count > 0) {
         CLLocation* location = [locations objectAtIndex:0];
         [self prepareLocationMap: location];
-        if([PreferencesManager isObservingRegion]) {
-            [self observeRegionForLocation: location];
-            [_locationManager stopUpdatingLocation];
-        }
-    }
+
+    } 
 }
 
-- (void)locationManager:(CLLocationManager *)manager didExitRegion:(CLRegion *)region {
-    [_locationManager stopMonitoringForRegion:region];
-    [_locationManager startUpdatingLocation];
+- (void)locationManager:(CLLocationManager *)manager
+     didVisit:(CLVisit *)visit {
+         if (visit.arrivalDate && !([visit.arrivalDate isEqual: [NSDate distantPast]])) {
+            CLLocation *arrivalLocation = [[CLLocation alloc] initWithCoordinate:visit.coordinate altitude:17.17 horizontalAccuracy:visit.horizontalAccuracy verticalAccuracy:0.0 timestamp:visit.arrivalDate];
+            [self prepareLocationMap: arrivalLocation];
+         }
+         if (visit.departureDate && !([visit.departureDate isEqual: [NSDate distantFuture]])) {
+            CLLocation *departureLocation = [[CLLocation alloc] initWithCoordinate:visit.coordinate altitude:15.15 horizontalAccuracy:visit.horizontalAccuracy verticalAccuracy:0.0 timestamp:visit.departureDate];
+            [self prepareLocationMap: departureLocation];
+         }
 }
 
 #pragma mark LocatorPlugin Methods
@@ -210,9 +216,10 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
     DisposePluggable *disposePluggable = [[DisposePluggable alloc] init];
     [disposePluggable setCallback:disposeCallback];
-        
-    [_locationManager startUpdatingLocation];
+
     [_locationManager startMonitoringSignificantLocationChanges];
+    [_locationManager startMonitoringVisits];
+    //[_locationManager startUpdatingLocation];
 }
 
 - (void)removeLocator {
@@ -220,18 +227,14 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
         return;
     }
     
-    @synchronized (self) {
-        [_locationManager stopUpdatingLocation];
-        
+    @synchronized (self) {        
         if (@available(iOS 9.0, *)) {
             _locationManager.allowsBackgroundLocationUpdates = NO;
         }
         
         [_locationManager stopMonitoringSignificantLocationChanges];
-
-        for (CLRegion* region in [_locationManager monitoredRegions]) {
-            [_locationManager stopMonitoringForRegion:region];
-        }
+        [_locationManager stopMonitoringVisits];
+        [_locationManager stopUpdatingLocation];
     }
     
     DisposePluggable *disposePluggable = [[DisposePluggable alloc] init];
