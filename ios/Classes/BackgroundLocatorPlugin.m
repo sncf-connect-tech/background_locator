@@ -89,8 +89,9 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
      didUpdateLocations:(NSArray<CLLocation *> *)locations {
     if (locations.count > 0) {
         CLLocation* location = [locations objectAtIndex:0];
+        [self prepareLocationMap: location];
     }
-    [self prepareLocationMap: location];
+    
 }
 
 #pragma mark LocatorPlugin Methods
