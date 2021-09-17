@@ -77,12 +77,20 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     }
 }
 
+- (void)prepareLocationMap:(CLLocation*) location {
+    _lastLocation = location;
+    NSDictionary<NSString*,NSNumber*>* locationMap = [Util getLocationMap:location];
+    
+    [self sendLocationEvent:locationMap];
+}
+
 #pragma mark LocationManagerDelegate Methods
 - (void)locationManager:(CLLocationManager *)manager
      didUpdateLocations:(NSArray<CLLocation *> *)locations {
     if (locations.count > 0) {
         CLLocation* location = [locations objectAtIndex:0];
     }
+    [self prepareLocationMap: location];
 }
 
 #pragma mark LocatorPlugin Methods
