@@ -74,6 +74,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 - (void)applicationDidEnterBackground:(UIApplication *)application {
     if ([PreferencesManager isServiceRunning]) {
         [_locationManager startMonitoringSignificantLocationChanges];
+        [_locationManager stopUpdatingLocation];
     }
 }
 
@@ -90,8 +91,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     if (locations.count > 0) {
         CLLocation* location = [locations objectAtIndex:0];
         [self prepareLocationMap: location];
-    }
-    
+    } 
 }
 
 #pragma mark LocatorPlugin Methods
@@ -189,6 +189,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     [disposePluggable setCallback:disposeCallback];
         
     [_locationManager startMonitoringSignificantLocationChanges];
+    [_locationManager startUpdatingLocation];
 }
 
 - (void)removeLocator {
@@ -202,6 +203,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
         }
         
         [_locationManager stopMonitoringSignificantLocationChanges];
+        [_locationManager stopUpdatingLocation];
     }
     
     DisposePluggable *disposePluggable = [[DisposePluggable alloc] init];
