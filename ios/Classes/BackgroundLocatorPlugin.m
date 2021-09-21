@@ -72,11 +72,25 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
+    [_locationManager stopUpdatingLocation];
     if ([PreferencesManager isServiceRunning]) {
         [_locationManager startMonitoringSignificantLocationChanges];
-        [_locationManager stopUpdatingLocation];
     }
 }
+
+- (void)applicationWillTerminate:(UIApplication *)application {
+    [_locationManager stopUpdatingLocation];
+    if ([PreferencesManager isServiceRunning]) {
+        [_locationManager startMonitoringSignificantLocationChanges];
+    }
+}
+
+//- (void)applicationWillEnterForeground:(UIApplication *)application {
+//    if ([PreferencesManager isServiceRunning]) {
+//        [_locationManager stopMonitoringSignificantLocationChanges];
+//        [_locationManager startUpdatingLocation];
+//    }
+//}
 
 - (void)prepareLocationMap:(CLLocation*) location {
     _lastLocation = location;
@@ -189,7 +203,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     [disposePluggable setCallback:disposeCallback];
         
     [_locationManager startMonitoringSignificantLocationChanges];
-    [_locationManager startUpdatingLocation];
+    //[_locationManager startUpdatingLocation];
 }
 
 - (void)removeLocator {
