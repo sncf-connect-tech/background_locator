@@ -75,6 +75,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     [_locationManager stopUpdatingLocation];
     if ([PreferencesManager isServiceRunning]) {
         [_locationManager startMonitoringSignificantLocationChanges];
+        [_locationManager startMonitoringVisits];
     }
 }
 
@@ -82,6 +83,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     [_locationManager stopUpdatingLocation];
     if ([PreferencesManager isServiceRunning]) {
         [_locationManager startMonitoringSignificantLocationChanges];
+        [_locationManager startMonitoringVisits];
     }
 }
 
@@ -105,7 +107,22 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     if (locations.count > 0) {
         CLLocation* location = [locations objectAtIndex:0];
         [self prepareLocationMap: location];
+
     } 
+}
+
+#pragma mark LocationManagerDelegate Methods
+- (void)locationManager:(CLLocationManager *)manager
+     didVisit:(CLVisit *)visit {
+         // TODO eviter les doublons ? 
+         if (visit.arrivalDate) {
+            CLLocation *arrivalLocation = [[CLLocation alloc] initWithCoordinate:visit.coordinate altitude:17.17 horizontalAccuracy:visit.horizontalAccuracy verticalAccuracy:0.0 timestamp:visit.arrivalDate];
+            [self prepareLocationMap: arrivalLocation];
+         }
+         if (visit.departureDate) {
+            CLLocation *departureLocation = [[CLLocation alloc] initWithCoordinate:visit.coordinate altitude:15.15 horizontalAccuracy:visit.horizontalAccuracy verticalAccuracy:0.0 timestamp:visit.departureDate];
+            [self prepareLocationMap: departureLocation];
+         }
 }
 
 #pragma mark LocatorPlugin Methods
@@ -142,7 +159,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 - (void) prepareLocationManager {
     _locationManager = [[CLLocationManager alloc] init];
     [_locationManager setDelegate:self];
-    _locationManager.pausesLocationUpdatesAutomatically = YES;
+    _locationManager.pausesLocationUpdatesAutomatically = NO;
 }
 
 #pragma mark MethodCallHelperDelegate
@@ -201,8 +218,9 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
     DisposePluggable *disposePluggable = [[DisposePluggable alloc] init];
     [disposePluggable setCallback:disposeCallback];
-        
+
     [_locationManager startMonitoringSignificantLocationChanges];
+    [_locationManager startMonitoringVisits];
     //[_locationManager startUpdatingLocation];
 }
 
@@ -217,6 +235,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
         }
         
         [_locationManager stopMonitoringSignificantLocationChanges];
+        [_locationManager stopMonitoringVisits];
         [_locationManager stopUpdatingLocation];
     }
     
