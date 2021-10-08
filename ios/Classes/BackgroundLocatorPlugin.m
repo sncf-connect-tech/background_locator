@@ -111,15 +111,13 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     } 
 }
 
-#pragma mark LocationManagerDelegate Methods
 - (void)locationManager:(CLLocationManager *)manager
      didVisit:(CLVisit *)visit {
-         // TODO eviter les doublons ? 
-         if (visit.arrivalDate) {
+         if (visit.arrivalDate && [visit.arrivalDate isNotEqualTo: [NSDate distantPast]]) {
             CLLocation *arrivalLocation = [[CLLocation alloc] initWithCoordinate:visit.coordinate altitude:17.17 horizontalAccuracy:visit.horizontalAccuracy verticalAccuracy:0.0 timestamp:visit.arrivalDate];
             [self prepareLocationMap: arrivalLocation];
          }
-         if (visit.departureDate) {
+         if (visit.departureDate && [visit.departureDate isNotEqualTo: [NSDate distantFuture]]) {
             CLLocation *departureLocation = [[CLLocation alloc] initWithCoordinate:visit.coordinate altitude:15.15 horizontalAccuracy:visit.horizontalAccuracy verticalAccuracy:0.0 timestamp:visit.departureDate];
             [self prepareLocationMap: departureLocation];
          }
