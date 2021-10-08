@@ -113,11 +113,11 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
 - (void)locationManager:(CLLocationManager *)manager
      didVisit:(CLVisit *)visit {
-         if (visit.arrivalDate && [visit.arrivalDate isNotEqualTo: [NSDate distantPast]]) {
+         if (visit.arrivalDate && !([visit.arrivalDate isEqual: [NSDate distantPast]])) {
             CLLocation *arrivalLocation = [[CLLocation alloc] initWithCoordinate:visit.coordinate altitude:17.17 horizontalAccuracy:visit.horizontalAccuracy verticalAccuracy:0.0 timestamp:visit.arrivalDate];
             [self prepareLocationMap: arrivalLocation];
          }
-         if (visit.departureDate && [visit.departureDate isNotEqualTo: [NSDate distantFuture]]) {
+         if (visit.departureDate && !([visit.departureDate isEqual: [NSDate distantFuture]])) {
             CLLocation *departureLocation = [[CLLocation alloc] initWithCoordinate:visit.coordinate altitude:15.15 horizontalAccuracy:visit.horizontalAccuracy verticalAccuracy:0.0 timestamp:visit.departureDate];
             [self prepareLocationMap: departureLocation];
          }
