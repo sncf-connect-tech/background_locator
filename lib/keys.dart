@@ -1,7 +1,7 @@
 class Keys {
-  static const String CHANNEL_ID = 'app.rekab/locator_plugin';
+  static const String CHANNEL_ID = 'app.yukams/locator_plugin';
   static const String BACKGROUND_CHANNEL_ID =
-      'app.rekab/locator_plugin_background';
+      'app.yukams/locator_plugin_background';
 
   static const String METHOD_SERVICE_INITIALIZED = 'LocatorService.initialized';
   static const String METHOD_PLUGIN_INITIALIZE_SERVICE =
@@ -59,6 +59,8 @@ class Keys {
 
   static const String SETTINGS_IOS_SHOWS_BACKGROUND_LOCATION_INDICATOR =
       'settings_ios_showsBackgroundLocationIndicator';
+  static const String SETTINGS_IOS_STOP_WITH_TERMINATE =
+      'settings_ios_stopWithTerminate';
 
   static const String BCM_SEND_LOCATION = 'BCM_SEND_LOCATION';
   static const String BCM_NOTIFICATION_CLICK = 'BCM_NOTIFICATION_CLICK';
