@@ -2,6 +2,8 @@
 * Fixing iOS build
 * Fixing memory leak on Android
 * Fixing callbacks on older Android devices
+## 2.0.6-dev.1
+* Fix Type mismatch: inferred type is String? but Any was expected 
 
 ## 2.0.5
 * Fixing demo gif
