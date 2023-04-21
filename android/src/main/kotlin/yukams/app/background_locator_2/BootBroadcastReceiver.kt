@@ -1,4 +1,4 @@
-package rekab.app.background_locator
+package yukams.app.background_locator_2
 
 import android.content.BroadcastReceiver
 import android.content.Context

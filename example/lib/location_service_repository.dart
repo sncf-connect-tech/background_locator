@@ -3,7 +3,7 @@ import 'dart:isolate';
 import 'dart:math';
 import 'dart:ui';
 
-import 'package:background_locator/location_dto.dart';
+import 'package:background_locator_2/location_dto.dart';
 
 import 'file_manager.dart';
 
@@ -55,7 +55,7 @@ class LocationServiceRepository {
     print('$_count location in dart: ${locationDto.toString()}');
     await setLogPosition(_count, locationDto);
     final SendPort send = IsolateNameServer.lookupPortByName(isolateName);
-    send?.send(locationDto);
+    send?.send(locationDto.toJson());
     _count++;
 
   }

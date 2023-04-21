@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'dart:ui';
 
-import 'package:background_locator/settings/android_settings.dart';
-import 'package:background_locator/settings/ios_settings.dart';
-import 'package:background_locator/utils/settings_util.dart';
+import 'package:background_locator_2/settings/android_settings.dart';
+import 'package:background_locator_2/settings/ios_settings.dart';
+import 'package:background_locator_2/utils/settings_util.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
@@ -22,6 +22,8 @@ class BackgroundLocator {
         {Keys.ARG_CALLBACK_DISPATCHER: callback.toRawHandle()});
   }
 
+  static WidgetsBinding? get _widgetsBinding => WidgetsBinding.instance;
+
   static Future<void> registerLocationUpdate(
       void Function(LocationDto) callback,
       {void Function(Map<String, dynamic>)? initCallback,
@@ -31,7 +33,7 @@ class BackgroundLocator {
       AndroidSettings androidSettings = const AndroidSettings(),
       IOSSettings iosSettings = const IOSSettings()}) async {
     if (autoStop) {
-      WidgetsBinding.instance!.addObserver(AutoStopHandler());
+      _widgetsBinding!.addObserver(AutoStopHandler());
     }
 
     final args = SettingsUtil.getArgumentsMap(

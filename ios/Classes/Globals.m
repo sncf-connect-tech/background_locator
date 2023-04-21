@@ -1,6 +1,6 @@
 //
 //  Constants.m
-//  background_locator
+//  background_locator_2
 //
 //  Created by Mehdi Sohrabi on 6/3/20.
 //
@@ -15,8 +15,8 @@ NSString *const kInitCallbackKey = @"init_callback_handle_key";
 NSString *const kInitDataCallbackKey = @"init_data_callback_key";
 NSString *const kDisposeCallbackKey = @"dispose_callback_handle_key";
 NSString *const kDistanceFilterKey = @"distance_filter_key";
-NSString *const kChannelId = @"app.rekab/locator_plugin";
-NSString *const kBackgroundChannelId = @"app.rekab/locator_plugin_background";
+NSString *const kChannelId = @"app.yukams/locator_plugin";
+NSString *const kBackgroundChannelId = @"app.yukams/locator_plugin_background";
 
 NSString *const kMethodServiceInitialized = @"LocatorService.initialized";
 NSString *const kMethodPluginInitializeService = @"LocatorPlugin.initializeService";
@@ -45,6 +45,7 @@ NSString *const kArgCallbackDispatcher = @"callbackDispatcher";
 NSString *const kSettingsAccuracy = @"settings_accuracy";
 NSString *const kSettingsDistanceFilter = @"settings_distanceFilter";
 NSString *const kSettingsShowsBackgroundLocationIndicator = @"settings_ios_showsBackgroundLocationIndicator";
+NSString *const kSettingsStopWithTerminate = @"settings_ios_stopWithTerminate";
 
 NSString *const kBCMSendLocation = @"BCM_SEND_LOCATION";
 NSString *const kBCMInit = @"BCM_INIT";
@@ -52,6 +53,7 @@ NSString *const kBCMDispose = @"BCM_DISPOSE";
 
 NSString *const kPrefObservingRegion = @"pref_observingRegion";
 NSString *const kPrefServiceRunning = @"pref_serviceRunning";
+NSString *const kPrefStopWithTerminate = @"pref_isStopWithTerminate";
 
 
 @end

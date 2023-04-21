@@ -1,3 +1,65 @@
+## 2.0.6
+* Fixing iOS build
+* Fixing memory leak on Android
+* Fixing callbacks on older Android devices
+## 2.0.6-dev.1
+* Fix Type mismatch: inferred type is String? but Any was expected 
+
+## 2.0.6-dev.2
+* Fixing iOS build
+* Fixing memory leak on Android
+* Fixing callbacks on older Android devices
+
+## 2.0.6-dev.1
+* Fix Type mismatch: inferred type is String? but Any was expected
+
+## 2.0.5
+* Fixing demo gif
+
+## 2.0.4
+* Merging 2.0.4-dev1 and 2.0.4-dev2 to the main branch
+
+## 2.0.4-dev.2
+* Adding auto stop on app terminate on iOS
+* Fixing import on example test script
+
+## 2.0.4-dev.1
+* Fixing iOS build
+* Replacing package:background_locator_2 by background_locator_2
+
+## 2.0.3
+* Replacing background_locator by background_locator_2 **(BREAKING CHANGE)**
+* Replacing rekab by yukams
+
+## 2.0.2
+* Adding fields to pubspec.yaml
+* Changing README.md to prepare it to be published on pub.dev
+* Changing LICENCE file
+
+## 2.0.1
+* Reverting minSdk from 31 to 29
+
+## 2.0.0
+* New fork
+* Support for Flutter 3.0
+* Support for NullSafety
+* Fix initCallback is now called first as expected
+* Fix callback not called
+* Fix example
+* Fix FLAG_IMMUTABLE error for SDK 23+
+* Fix library not working after a phone reboot
+* Fix library not working after an app crash due to revoking permissions
+* Adding a bit more logs
+* Changing minSdk from 29 to 31
+
+## 1.6.12
+* Fixes onStatusChanged crash;
+* Fixed issue #94;
+* Fix importing path_provider in ios example;
+* Fix issue #266;
+* Fix Android 12 location permission handling;
+* Add network location provider even gps location data not update;
+
 ## 1.6.6
 * Fix invoking method on flutter channel when engine is not ready; (#254)
 

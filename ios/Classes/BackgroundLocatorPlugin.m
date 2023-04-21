@@ -85,6 +85,10 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
         [_locationManager startMonitoringSignificantLocationChanges];
         [_locationManager startMonitoringVisits];
     }
+
+    if([PreferencesManager isStopWithTerminate]){
+        [self removeLocator];
+    }
 }
 
 //- (void)applicationWillEnterForeground:(UIApplication *)application {
@@ -194,6 +198,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     CLLocationAccuracy accuracy = [Util getAccuracy:accuracyKey];
     double distanceFilter= [[settings objectForKey:kSettingsDistanceFilter] doubleValue];
     bool  showsBackgroundLocationIndicator=[[settings objectForKey:kSettingsShowsBackgroundLocationIndicator] boolValue];
+    bool  stopWithTerminate=[[settings objectForKey:kSettingsStopWithTerminate] boolValue];
 
     _locationManager.desiredAccuracy = accuracy;
     _locationManager.distanceFilter = distanceFilter;
@@ -207,6 +212,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     }
     
     [PreferencesManager saveDistanceFilter:distanceFilter];
+    [PreferencesManager setStopWithTerminate:stopWithTerminate];
 
     [PreferencesManager setCallbackHandle:callback key:kCallbackKey];
     
@@ -249,6 +255,10 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
 - (BOOL)isServiceRunning{
     return [PreferencesManager isServiceRunning];
+}
+
+- (BOOL)isStopWithTerminate{
+    return [PreferencesManager isStopWithTerminate];
 }
 
 @end

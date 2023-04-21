@@ -1,4 +1,4 @@
-package rekab.app.background_locator.provider
+package yukams.app.background_locator_2.provider
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -31,7 +31,7 @@ class GoogleLocationProviderClient(context: Context, override var listener: Loca
 }
 
 private class LocationListener(val listener: LocationUpdateListener?) : LocationCallback() {
-    override fun onLocationResult(location: LocationResult?) {
+    override fun onLocationResult(location: LocationResult) {
         listener?.onLocationUpdated(LocationParserUtil.getLocationMapFromLocation(location))
     }
 }

@@ -1,5 +1,5 @@
-name: background_locator_example
-description: Demonstrates how to use the background_locator plugin.
+name: background_locator_2_example
+description: Demonstrates how to use the background_locator_2 plugin.
 publish_to: 'none'
 
 environment:
@@ -17,10 +17,10 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  background_locator:
+  background_locator_2:
     path: ../
 
-  path_provider: ^2.0.1
+  path_provider: ^2.0.8
   location_permissions: ^3.0.0+1
 
 # For information on the generic Dart part of this file, see the
