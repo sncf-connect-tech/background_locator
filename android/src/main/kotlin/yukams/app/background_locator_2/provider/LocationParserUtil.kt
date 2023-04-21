@@ -1,14 +1,14 @@
-package rekab.app.background_locator.provider
+package yukams.app.background_locator_2.provider
 
 import android.location.Location
 import android.os.Build
 import com.google.android.gms.location.LocationResult
-import rekab.app.background_locator.Keys
+import yukams.app.background_locator_2.Keys
 import java.util.HashMap
 
 class LocationParserUtil {
     companion object {
-        fun getLocationMapFromLocation(location: Location): HashMap<Any, Any> {
+        fun getLocationMapFromLocation(location: Location): HashMap<Any, Any?> {
             var speedAccuracy = 0f
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 speedAccuracy = location.speedAccuracyMetersPerSecond
@@ -32,7 +32,7 @@ class LocationParserUtil {
             )
         }
 
-        fun getLocationMapFromLocation(location: LocationResult?): HashMap<Any, Any>? {
+        fun getLocationMapFromLocation(location: LocationResult?): HashMap<Any, Any?>? {
             val firstLocation = location?.lastLocation ?: return null
 
             var speedAccuracy = 0f
